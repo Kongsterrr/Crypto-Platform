@@ -88,7 +88,7 @@ export default function Forum() {
           <span className="text-xl sm:text-2xl font-bold">crypto</span>
         </div>
         <nav className="hidden md:flex space-x-6">
-          <Link href="/" className="hover:text-yellow-200">
+          <Link href="/home" className="hover:text-yellow-200">
             Home
           </Link>
           <Link href="/portfolio" className="hover:text-yellow-200">
@@ -138,7 +138,7 @@ export default function Forum() {
 
       {showMobileMenu && (
         <div className="md:hidden bg-white bg-opacity-10 backdrop-blur-lg rounded-lg p-4 mb-6">
-          <Link href="/" className="block py-2 hover:text-yellow-200">
+          <Link href="/home" className="block py-2 hover:text-yellow-200">
             Home
           </Link>
           <Link href="/portfolio" className="block py-2 hover:text-yellow-200">
