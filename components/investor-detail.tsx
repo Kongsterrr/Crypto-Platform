@@ -131,45 +131,45 @@ export default function InvestorDetail({ investorId }: InvestorDetailProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-yellow-900 to-yellow-600 text-white p-8">
-      <header className="flex justify-between items-center mb-12">
+    <div className="min-h-screen bg-gradient-to-b from-black via-yellow-900 to-yellow-600 text-white p-4 sm:p-8">
+      <header className="flex justify-between items-center mb-6 sm:mb-12">
         <Link href="/portfolio" className="flex items-center text-yellow-400 hover:text-yellow-200">
-          <ArrowLeft className="w-6 h-6 mr-2" />
-          Back to Portfolio
+          <ArrowLeft className="w-4 h-4 sm:w-6 sm:h-6 mr-1 sm:mr-2" />
+          <span className="text-sm sm:text-base">Back to Portfolio</span>
         </Link>
-        <div className="flex items-center space-x-2">
-          <Globe className="w-8 h-8" />
-          <span className="text-2xl font-bold">crypto</span>
+        <div className="flex items-center space-x-1 sm:space-x-2">
+          <Globe className="w-6 h-6 sm:w-8 sm:h-8" />
+          <span className="text-xl sm:text-2xl font-bold">crypto</span>
         </div>
       </header>
 
       <main className="max-w-4xl mx-auto">
-        <Card className="bg-white bg-opacity-10 backdrop-blur-lg text-white rounded-2xl p-6 mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center">
+        <Card className="bg-white bg-opacity-10 backdrop-blur-lg text-white rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
+            <div className="flex items-center mb-4 sm:mb-0">
               <Image
                 src={investorData.image}
                 alt={investorData.name}
-                width={80}
-                height={80}
-                className="rounded-full mr-4"
+                width={60}
+                height={60}
+                className="rounded-full mr-3 sm:mr-4"
               />
               <div>
-                <h1 className="text-3xl font-bold">{investorData.name}</h1>
-                <p className="text-xl text-yellow-400">{investorData.totalInvestment}</p>
+                <h1 className="text-2xl sm:text-3xl font-bold">{investorData.name}</h1>
+                <p className="text-lg sm:text-xl text-yellow-400">{investorData.totalInvestment}</p>
               </div>
             </div>
-            <div className="text-right">
-              <p className={`text-2xl font-bold ${change.isPositive ? 'text-green-400' : 'text-red-400'}`}>
+            <div className="text-left sm:text-right">
+              <p className={`text-xl sm:text-2xl font-bold ${change.isPositive ? 'text-green-400' : 'text-red-400'}`}>
                 {change.isPositive ? '▲' : '▼'} {change.value}
               </p>
-              <p className={`text-lg ${change.isPositive ? 'text-green-400' : 'text-red-400'}`}>
+              <p className={`text-base sm:text-lg ${change.isPositive ? 'text-green-400' : 'text-red-400'}`}>
                 ({change.percent}%) Today
               </p>
             </div>
           </div>
 
-          <div className="h-[300px] w-full">
+          <div className="h-[250px] sm:h-[300px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
@@ -177,11 +177,13 @@ export default function InvestorDetail({ investorId }: InvestorDetailProps) {
                   dataKey="date" 
                   stroke="rgba(255,255,255,0.5)"
                   tickFormatter={formatXAxis}
+                  tick={{ fontSize: 10 }}
                 />
                 <YAxis 
                   stroke="rgba(255,255,255,0.5)"
                   tickFormatter={formatYAxis}
                   domain={['dataMin - 1000', 'dataMax + 1000']}
+                  tick={{ fontSize: 10 }}
                 />
                 <Tooltip
                   contentStyle={{ backgroundColor: 'rgba(0,0,0,0.8)', border: 'none' }}
@@ -200,7 +202,7 @@ export default function InvestorDetail({ investorId }: InvestorDetailProps) {
             </ResponsiveContainer>
           </div>
 
-          <div className="flex justify-between mt-4">
+          <div className="flex flex-wrap justify-between mt-4">
             {periods.map((period) => (
               <Button
                 key={period}
@@ -209,7 +211,7 @@ export default function InvestorDetail({ investorId }: InvestorDetailProps) {
                   selectedPeriod === period
                     ? 'bg-yellow-500 text-black'
                     : 'bg-transparent text-white'
-                } hover:bg-yellow-600 hover:text-black`}
+                } hover:bg-yellow-600 hover:text-black text-xs sm:text-sm px-2 sm:px-4 py-1 sm:py-2 mb-2`}
               >
                 {period}
               </Button>
@@ -217,26 +219,26 @@ export default function InvestorDetail({ investorId }: InvestorDetailProps) {
           </div>
         </Card>
 
-        <h2 className="text-2xl font-semibold mb-4">Stocks & ETFs</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <h2 className="text-xl sm:text-2xl font-semibold mb-4">Stocks & ETFs</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {stocks.map((stock) => (
-            <Card key={stock.symbol} className="bg-white bg-opacity-10 backdrop-blur-lg text-white rounded-xl p-4">
+            <Card key={stock.symbol} className="bg-white bg-opacity-10 backdrop-blur-lg text-white rounded-xl p-3 sm:p-4">
               <div className="flex justify-between items-center">
                 <div>
-                  <h3 className="text-xl font-semibold">{stock.symbol}</h3>
-                  <p className="text-sm text-gray-300">{stock.shares} shares</p>
+                  <h3 className="text-lg sm:text-xl font-semibold">{stock.symbol}</h3>
+                  <p className="text-xs sm:text-sm text-gray-300">{stock.shares} shares</p>
                 </div>
                 <div className={`flex items-center ${stock.isPositive ? 'text-green-400' : 'text-red-400'}`}>
-                  {stock.isPositive ? <TrendingUp className="w-4 h-4 mr-1" /> : <TrendingDown className="w-4 h-4 mr-1" />}
-                  <span className="font-semibold">${Math.abs(stock.change).toFixed(2)}</span>
+                  {stock.isPositive ? <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4 mr-1" /> : <TrendingDown className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />}
+                  <span className="font-semibold text-sm sm:text-base">${Math.abs(stock.change).toFixed(2)}</span>
                 </div>
               </div>
             </Card>
           ))}
         </div>
 
-        <div className="mt-8 text-center">
-          <Button className="bg-yellow-500 text-black hover:bg-yellow-600">
+        <div className="mt-6 sm:mt-8 text-center">
+          <Button className="bg-yellow-500 text-black hover:bg-yellow-600 text-sm sm:text-base px-4 sm:px-6 py-2 sm:py-3">
             View Full Portfolio
           </Button>
         </div>
