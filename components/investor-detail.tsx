@@ -64,6 +64,8 @@ export default function InvestorDetail({ investorId }: InvestorDetailProps) {
     image: "/images/investor1.png"
   }
 
+  console.log('Investor ID:', investorId);
+
   const periods = ["1D", "1W", "1M", "3M", "YTD", "1Y"]
 
   const formatCurrency = (value: number) => {

@@ -24,6 +24,11 @@ interface ChartProps extends React.HTMLAttributes<HTMLDivElement> {
   height?: number
 }
 
+interface ChartDataPoint {
+  name: string;
+  value: number;
+}
+
 export function Chart({
   data,
   width = 400,
@@ -42,7 +47,7 @@ export function Chart({
     tooltipData,
     tooltipTop = 0,
     tooltipLeft = 0,
-  } = useTooltip()
+  } = useTooltip<ChartDataPoint>()
 
   const xScale = React.useMemo(
     () =>
@@ -139,8 +144,8 @@ export function Chart({
           style={tooltipStyles}
         >
           <div className="flex flex-col">
-            <span className="font-bold">{(tooltipData as any).name}</span>
-            <span>{(tooltipData as any).value}</span>
+            <span className="font-bold">{tooltipData.name}</span>
+            <span>{tooltipData.value}</span>
           </div>
         </TooltipInPortal>
       )}
