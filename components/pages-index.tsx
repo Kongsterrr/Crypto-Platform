@@ -4,13 +4,12 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Search, Globe, User, ArrowUpDown, X, Menu } from "lucide-react"
-import Link from "next/link"
+import { Search, ArrowUpDown, X } from "lucide-react"
 import { Switch } from "@/components/ui/switch"
 import { useAuth } from "@/contexts/AuthContext"
 
 export default function CryptoPlatform() {
-  const { isLoggedIn, login, logout } = useAuth()
+  const { isLoggedIn, login } = useAuth()
   const [isTradable, setIsTradable] = useState(true)
   const [sortByProfit, setSortByProfit] = useState(false)
   const [showAuthModal, setShowAuthModal] = useState(false)
@@ -18,7 +17,6 @@ export default function CryptoPlatform() {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [authError, setAuthError] = useState("")
-  const [showMobileMenu, setShowMobileMenu] = useState(false)
 
   const cryptos = [
     { name: "Elol Go", icon: "🔴", price: "$833,100", description: "Test lorem", profit: "+5.2%" },
@@ -59,82 +57,8 @@ export default function CryptoPlatform() {
     }
   }
 
-  const handleLogout = () => {
-    logout()
-    setUsername("")
-    setPassword("")
-  }
-
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-yellow-900 to-yellow-600 text-white p-4 sm:p-8">
-      <header className="flex justify-between items-center mb-8 sm:mb-12">
-        <div className="flex items-center space-x-2">
-          <Globe className="w-6 h-6 sm:w-8 sm:h-8" />
-          <span className="text-xl sm:text-2xl font-bold">crypto</span>
-        </div>
-        <nav className="hidden md:flex space-x-6">
-          <Link href="/home" className="hover:text-yellow-200">
-            Home
-          </Link>
-          <Link href="/portfolio" className="hover:text-yellow-200">
-            Portfolio
-          </Link>
-          <Link href="/forum" className="hover:text-yellow-200">
-            Forum
-          </Link>
-        </nav>
-        <div className="flex items-center space-x-2 sm:space-x-4">
-          <Button variant="ghost" size="icon" className="text-white">
-            <Globe className="w-5 h-5" />
-          </Button>
-          <Button className="bg-yellow-500 bg-opacity-80 text-black hover:bg-yellow-600 hover:bg-opacity-80 text-xs sm:text-sm">
-            $21 508
-          </Button>
-          {isLoggedIn ? (
-            <Button 
-              onClick={handleLogout}
-              className="bg-transparent border border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:bg-opacity-20 hover:text-white transition-colors duration-300 text-xs sm:text-sm"
-            >
-              <User className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" />
-              Logout
-            </Button>
-          ) : (
-            <Button 
-              onClick={() => {
-                setShowAuthModal(true)
-                setIsLoginMode(true)
-              }}
-              className="bg-transparent border border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:bg-opacity-20 hover:text-white transition-colors duration-300 text-xs sm:text-sm"
-            >
-              <User className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" />
-              Login
-            </Button>
-          )}
-          <Button
-            className="md:hidden"
-            variant="ghost"
-            size="icon"
-            onClick={() => setShowMobileMenu(!showMobileMenu)}
-          >
-            <Menu className="w-6 h-6" />
-          </Button>
-        </div>
-      </header>
-
-      {showMobileMenu && (
-        <div className="md:hidden bg-white bg-opacity-10 backdrop-blur-lg rounded-lg p-4 mb-6">
-          <Link href="/home" className="block py-2 hover:text-yellow-200">
-            Home
-          </Link>
-          <Link href="/portfolio" className="block py-2 hover:text-yellow-200">
-            Portfolio
-          </Link>
-          <Link href="/forum" className="block py-2 hover:text-yellow-200">
-            Forum
-          </Link>
-        </div>
-      )}
-
+    <div className="p-4 sm:p-8">
       <main className="max-w-6xl mx-auto">
         <h1 className="text-4xl sm:text-6xl font-bold mb-6 sm:mb-8 text-center">
           Search for
@@ -226,7 +150,7 @@ export default function CryptoPlatform() {
                 />
               </div>
               {authError && <p className="text-red-400 mb-4 text-sm">{authError}</p>}
-              <Button type="submit" className="w-full bg-yellow-500 bg-opacity-80 text-black hover:bg-yellow-600 hover:bg-opacity-80">
+              <Button type="submit" className="w-full bg-yellow-500 bg-opacity-80 text-black  hover:bg-yellow-600 hover:bg-opacity-80">
                 {isLoginMode ? "Login" : "Register"}
               </Button>
             </form>

@@ -19,7 +19,7 @@ const icon = {
 export default function LandingPage() {
   return (
     <AuroraBackground className="bg-gradient-to-b from-black via-yellow-900 to-yellow-600">
-      <div className="relative z-10 flex flex-col items-center justify-center p-4 w-full h-full">
+      <div className="relative z-10 flex flex-col items-center justify-center p-4 w-full h-full min-h-screen">
         <svg width="0" height="0">
           <linearGradient id="logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#000000" />

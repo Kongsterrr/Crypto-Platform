@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { Globe, ArrowLeft, TrendingUp, TrendingDown } from "lucide-react"
+import { ArrowLeft, TrendingUp, TrendingDown } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
@@ -50,10 +50,10 @@ const stocks = [
 ]
 
 interface InvestorDetailProps {
-  investorId: string;
+  id: string;
 }
 
-export default function InvestorDetail({ investorId }: InvestorDetailProps) {
+export default function InvestorDetail({ id }: InvestorDetailProps) {
   const [selectedPeriod, setSelectedPeriod] = useState("1Y")
 
   // Mock data for the top investor
@@ -64,7 +64,7 @@ export default function InvestorDetail({ investorId }: InvestorDetailProps) {
     image: "/images/investor1.png"
   }
 
-  console.log('Investor ID:', investorId);
+  console.log('Investor ID:', id);
 
   const periods = ["1D", "1W", "1M", "3M", "YTD", "1Y"]
 
@@ -131,19 +131,15 @@ export default function InvestorDetail({ investorId }: InvestorDetailProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-yellow-900 to-yellow-600 text-white p-4 sm:p-8">
-      <header className="flex justify-between items-center mb-6 sm:mb-12">
-        <Link href="/portfolio" className="flex items-center text-yellow-400 hover:text-yellow-200">
-          <ArrowLeft className="w-4 h-4 sm:w-6 sm:h-6 mr-1 sm:mr-2" />
-          <span className="text-sm sm:text-base">Back to Portfolio</span>
-        </Link>
-        <div className="flex items-center space-x-1 sm:space-x-2">
-          <Globe className="w-6 h-6 sm:w-8 sm:h-8" />
-          <span className="text-xl sm:text-2xl font-bold">crypto</span>
+    <div className="min-h-screen">
+      <main className="max-w-4xl mx-auto p-4 sm:p-8">
+        <div className="mb-6 sm:mb-12">
+          <Link href="/portfolio" className="flex items-center text-yellow-400 hover:text-yellow-200">
+            <ArrowLeft className="w-4 h-4 sm:w-6 sm:h-6 mr-1 sm:mr-2" />
+            <span className="text-sm sm:text-base">Back to Portfolio</span>
+          </Link>
         </div>
-      </header>
 
-      <main className="max-w-4xl mx-auto">
         <Card className="bg-white bg-opacity-10 backdrop-blur-lg text-white rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
             <div className="flex items-center mb-4 sm:mb-0">
