@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { ArrowLeft, ChevronRight } from 'lucide-react'
 import { Doughnut } from 'react-chartjs-2'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, Title } from 'chart.js'
@@ -10,10 +10,15 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsToolti
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, Title)
 
+interface EarningsDataPoint {
+  date: string;
+  value: number;
+}
+
 // Generate more realistic earnings data
-const generateEarningsData = (days: number) => {
+const generateEarningsData = (days: number): EarningsDataPoint[] => {
   let value = 12000 // Starting value
-  const data = []
+  const data: EarningsDataPoint[] = []
   const now = Date.now()
   const hoursInDay = 24
   
@@ -41,8 +46,12 @@ const generateEarningsData = (days: number) => {
 
 const ProfilePage = () => {
   const [selectedPeriod, setSelectedPeriod] = useState("1Y")
+  const [earningsData, setEarningsData] = useState<EarningsDataPoint[]>([])
+  const [change, setChange] = useState({ value: '$0.00', percent: '0.00', isPositive: true })
 
-  const earningsData = useMemo(() => generateEarningsData(365), []) // Generate data for a year
+  useEffect(() => {
+    setEarningsData(generateEarningsData(365))
+  }, [])
 
   const holdingsData = {
     labels: ['BTC', 'ETH', 'ADA'],
@@ -68,23 +77,24 @@ const ProfilePage = () => {
     return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value)
   }
 
-  const calculateChange = () => {
-    const latestValue = earningsData[earningsData.length - 1].value
-    const previousValue = earningsData[earningsData.length - 2].value
-    const change = latestValue - previousValue
-    const percentChange = (change / previousValue) * 100
-    return {
-      value: formatCurrency(change),
-      percent: percentChange.toFixed(2),
-      isPositive: change >= 0
+  useEffect(() => {
+    if (earningsData.length > 1) {
+      const latestValue = earningsData[earningsData.length - 1].value
+      const previousValue = earningsData[earningsData.length - 2].value
+      const changeValue = latestValue - previousValue
+      const percentChange = (changeValue / previousValue) * 100
+      setChange({
+        value: formatCurrency(changeValue),
+        percent: percentChange.toFixed(2),
+        isPositive: changeValue >= 0
+      })
     }
-  }
-
-  const change = calculateChange()
+  }, [earningsData])
 
   const chartData = useMemo(() => {
+    if (earningsData.length === 0) return []
     const now = new Date()
-    const filteredData = earningsData.filter(item => {
+    return earningsData.filter(item => {
       const itemDate = new Date(item.date)
       switch (selectedPeriod) {
         case "1D":
@@ -102,7 +112,6 @@ const ProfilePage = () => {
           return true
       }
     })
-    return filteredData
   }, [earningsData, selectedPeriod])
 
   const formatXAxis = (tickItem: string) => {
@@ -130,7 +139,8 @@ const ProfilePage = () => {
     <div className="min-h-screen text-white">
       <div className="max-w-6xl mx-auto p-4">
         <header className="flex items-center mb-6">
-     
+          {/* <ArrowLeft className="w-6 h-6 mr-4" /> */}
+          {/* <h1 className="text-2xl font-bold">Profile</h1> */}
         </header>
 
         <div className="flex flex-col md:flex-row gap-8">
@@ -169,7 +179,7 @@ const ProfilePage = () => {
                       }
                     }
                   },
-                  cutout: '55%', // Adjusted from 70% to 55% to make the bar wider
+                  cutout: '55%',
                   responsive: true,
                   maintainAspectRatio: false,
                 }}

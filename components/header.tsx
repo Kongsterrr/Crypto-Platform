@@ -74,9 +74,11 @@ export default function Header() {
           <Button variant="ghost" size="icon" className="text-white">
             <Globe className="w-5 h-5" />
           </Button>
-          <Button className="bg-yellow-500 bg-opacity-80 text-black hover:bg-yellow-600 hover:bg-opacity-80 text-xs sm:text-sm">
-            $21 508
-          </Button>
+          <Link href="/profile">
+            <Button className="bg-yellow-500 bg-opacity-80 text-black hover:bg-yellow-600 hover:bg-opacity-80 text-xs sm:text-sm">
+              $21 508
+            </Button>
+          </Link>
           {isLoggedIn ? (
             <Button 
               onClick={handleLogout}
