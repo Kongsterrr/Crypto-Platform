@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useMemo, useEffect } from 'react'
-import { ArrowLeft, ChevronRight } from 'lucide-react'
+import { ArrowLeft, ChevronRight, Heart, MessageCircle, Share2 } from 'lucide-react'
 import { Doughnut } from 'react-chartjs-2'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, Title } from 'chart.js'
 import { Button } from "@/components/ui/button"
@@ -58,8 +58,12 @@ const ProfilePage = () => {
     datasets: [
       {
         data: [30, 50, 20],
-        backgroundColor: ['#F7931A', '#627EEA', '#0033AD'],
-        borderColor: 'rgba(255, 255, 255, 0.1)',
+        backgroundColor: [
+          'rgba(255, 178, 6, 0.9)',      // Bright gold for BTC
+          'rgba(214, 150, 3, 0.9)',   // Darker gold for ETH
+          'rgba(156, 109, 0, 0.9)',     // Very dark brown/black for ADA
+        ],
+        borderColor: 'rgba(0, 0, 0, 0.1)',
         borderWidth: 2,
       }
     ]
@@ -135,12 +139,41 @@ const ProfilePage = () => {
     return `$${(value / 1000).toFixed(1)}k`
   }
 
+  const userPosts = [
+    {
+      id: 1,
+      title: "My thoughts on the latest Bitcoin rally",
+      content: "The recent surge in Bitcoin's price has been nothing short of spectacular. Here's my analysis...",
+      date: "2024-10-15",
+      likes: 24,
+      comments: 7,
+      image: "/images/bitcoin.jpg"
+    },
+    {
+      id: 2,
+      title: "Ethereum 2.0: A game changer?",
+      content: "With the upcoming Ethereum 2.0 upgrade, we're looking at potential shifts in the crypto landscape...",
+      date: "2024-10-10",
+      likes: 31,
+      comments: 12,
+      image: "/images/ethereum.png"
+    },
+    {
+      id: 3,
+      title: "Decentralized Finance: Opportunities and Risks",
+      content: "DeFi is revolutionizing traditional finance, but it's not without its risks. Let's explore...",
+      date: "2024-10-05",
+      likes: 42,
+      comments: 15,
+      image: "/images/defi.jpg"
+    }
+  ]
+
   return (
     <div className="min-h-screen text-white">
       <div className="max-w-6xl mx-auto p-4">
         <header className="flex items-center mb-6">
-          {/* <ArrowLeft className="w-6 h-6 mr-4" /> */}
-          {/* <h1 className="text-2xl font-bold">Profile</h1> */}
+         
         </header>
 
         <div className="flex flex-col md:flex-row gap-8">
@@ -270,6 +303,40 @@ const ProfilePage = () => {
                 </div>
               ))}
             </Card>
+          </div>
+        </div>
+
+        <hr className="my-8 border-t border-gray-700" />
+
+        <div className="mt-8">
+          <h2 className="text-2xl font-semibold mb-6 text-white-300">My Posts</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {userPosts.map((post) => (
+              <Card key={post.id} className="bg-black bg-opacity-50 rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:scale-105">
+                <img src={post.image} alt={post.title} className="w-full h-48 object-cover" />
+                <div className="p-4">
+                  <h3 className="text-lg font-semibold mb-2 text-yellow-300">{post.title}</h3>
+                  
+                  <p className="text-gray-300 text-sm mb-4">{post.content.substring(0, 100)}...</p>
+                  <div className="flex justify-between items-center text-sm text-gray-400">
+                    <span>{post.date}</span>
+                    <div className="flex space-x-4">
+                      <button className="flex items-center space-x-1 hover:text-yellow-300 transition-colors duration-200">
+                        <Heart size={16} />
+                        <span>{post.likes}</span>
+                      </button>
+                      <button className="flex items-center space-x-1 hover:text-yellow-300 transition-colors duration-200">
+                        <MessageCircle size={16} />
+                        <span>{post.comments}</span>
+                      </button>
+                      <button className="hover:text-yellow-300 transition-colors duration-200">
+                        <Share2 size={16} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            ))}
           </div>
         </div>
       </div>
