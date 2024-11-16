@@ -103,6 +103,31 @@ const setCachedData = (key: string, data: any) => {
   localStorage.setItem(`${key}_timestamp`, new Date().getTime().toString());
 };
 
+const formatPrice = (price: number) => {
+  if (price >= 1) {
+    return price.toLocaleString('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  } else if (price >= 0.01) {
+    return price.toLocaleString('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 4,
+      maximumFractionDigits: 4,
+    });
+  } else {
+    return price.toLocaleString('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumSignificantDigits: 2,
+      maximumSignificantDigits: 6,
+    });
+  }
+};
+
 export default function CryptoDetail({ id }: CryptoDetailProps) {
   const router = useRouter()
   const [cryptoDetail, setCryptoDetail] = useState<CryptoDetail | null>(null)
@@ -207,6 +232,7 @@ export default function CryptoDetail({ id }: CryptoDetailProps) {
     )
   }
 
+  const currentPrice = cryptoDetail.market_data.current_price.usd;
   const priceChange = cryptoDetail.market_data.price_change_24h;
   const priceChangePercent = cryptoDetail.market_data.price_change_percentage_24h;
   const isNegative = priceChange < 0;
@@ -242,11 +268,11 @@ export default function CryptoDetail({ id }: CryptoDetailProps) {
         {/* Price Section */}
         <div className="text-center mb-8">
           <div className="text-4xl font-bold mb-2">
-            ${cryptoDetail.market_data.current_price.usd.toLocaleString()}
+            {formatPrice(currentPrice)}
           </div>
           <div className={`flex items-center justify-center gap-2 ${isNegative ? 'text-pink-500' : 'text-green-500'}`}>
             <span>{isNegative ? '▼' : '▲'}</span>
-            <span>${Math.abs(priceChange).toLocaleString()}</span>
+            <span>{formatPrice(Math.abs(priceChange))}</span>
             <span>({priceChangePercent.toFixed(2)}%) Today</span>
           </div>
         </div>
@@ -267,7 +293,7 @@ export default function CryptoDetail({ id }: CryptoDetailProps) {
               <Tooltip
                 contentStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', border: 'none' }}
                 labelStyle={{ color: '#fff' }}
-                formatter={(value: number) => [`$${value.toFixed(2)}`, 'Price']}
+                formatter={(value: number) => [formatPrice(value), 'Price']}
               />
             </LineChart>
           </ResponsiveContainer>
@@ -313,25 +339,25 @@ export default function CryptoDetail({ id }: CryptoDetailProps) {
             <div>
               <p className="text-gray-400 mb-1">52 wk high</p>
               <p className="text-xl font-semibold">
-                ${cryptoDetail.market_data.ath.usd.toLocaleString()}
+                {formatPrice(cryptoDetail.market_data.ath.usd)}
               </p>
             </div>
             <div>
               <p className="text-gray-400 mb-1">24h volume</p>
               <p className="text-xl font-semibold">
-                ${(cryptoDetail.market_data.total_volume.usd / 1e9).toFixed(2)}B
+                {formatPrice(cryptoDetail.market_data.total_volume.usd)}
               </p>
             </div>
             <div>
               <p className="text-gray-400 mb-1">52 wk low</p>
               <p className="text-xl font-semibold">
-                ${cryptoDetail.market_data.atl.usd.toLocaleString()}
+                {formatPrice(cryptoDetail.market_data.atl.usd)}
               </p>
             </div>
             <div>
               <p className="text-gray-400 mb-1">Market cap</p>
               <p className="text-xl font-semibold">
-                ${(cryptoDetail.market_data.market_cap.usd / 1e12).toFixed(2)}T
+                {formatPrice(cryptoDetail.market_data.market_cap.usd)}
               </p>
             </div>
             <div className="col-span-2">

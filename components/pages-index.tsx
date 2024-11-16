@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Search, ArrowUpDown, X, ChevronLeft, ChevronRight } from "lucide-react"
+import { Search, ArrowUpDown, X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useAuth } from "@/contexts/AuthContext"
 import Link from 'next/link'
 
@@ -19,6 +19,31 @@ interface Crypto {
 }
 
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
+
+const formatPrice = (price: number) => {
+  if (price >= 1) {
+    return price.toLocaleString('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  } else if (price >= 0.01) {
+    return price.toLocaleString('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 4,
+      maximumFractionDigits: 4,
+    });
+  } else {
+    return price.toLocaleString('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumSignificantDigits: 2,
+      maximumSignificantDigits: 6,
+    });
+  }
+};
 
 export default function CryptoPlatform() {
   const { isLoggedIn, login } = useAuth()
@@ -163,7 +188,7 @@ export default function CryptoPlatform() {
                   <h3 className="font-semibold text-base sm:text-lg truncate" style={{ fontSize: crypto.name.length > 12 ? '0.875rem' : '1rem' }}>{crypto.name}</h3>
                   <p className="text-xs sm:text-sm text-gray-300">{crypto.symbol.toUpperCase()}</p>
                   <div className="flex justify-between items-center mt-1 sm:mt-2">
-                    <p className="font-bold text-yellow-400 text-sm sm:text-base">${crypto.current_price.toLocaleString()}</p>
+                    <p className="font-bold text-yellow-400 text-sm sm:text-base">{formatPrice(crypto.current_price)}</p>
                     <p className={`text-xs sm:text-sm ${crypto.price_change_percentage_24h >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                       {crypto.price_change_percentage_24h.toFixed(2)}%
                     </p>
