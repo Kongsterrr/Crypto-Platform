@@ -60,14 +60,23 @@ export default function Header() {
           <span className="text-xl sm:text-2xl font-bold">crypto</span>
         </div>
         <nav className="hidden md:flex space-x-6">
+          <Link href="/meme" className="hover:text-yellow-200">
+            Meme
+          </Link>
           <Link href="/home" className="hover:text-yellow-200">
-            Home
+            Trending
           </Link>
           <Link href="/portfolio" className="hover:text-yellow-200">
             Portfolio
           </Link>
           <Link href="/forum" className="hover:text-yellow-200">
             Forum
+          </Link>
+          <Link href="/follow" className="hover:text-yellow-200">
+            Follow
+          </Link>
+          <Link href="/channel/1" className="hover:text-yellow-200">
+            Channel
           </Link>
         </nav>
         <div className="flex items-center space-x-2 sm:space-x-4">
